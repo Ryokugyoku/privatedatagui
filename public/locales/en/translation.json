@@ -1,0 +1,11 @@
+{
+    "login": {
+        "title": "Login",
+        "email": "Email Address",
+        "password": "Password",
+        "submit": "Login"
+    },
+    "footer":{
+        "language": "Language"
+    }
+}

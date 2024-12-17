@@ -1,0 +1,11 @@
+{
+    "login": {
+      "title": "ログイン",
+      "email": "メールアドレス",
+      "password": "パスワード",
+      "submit": "ログイン"
+    },
+    "footer":{
+      "language": "言語"
+  }
+  }
