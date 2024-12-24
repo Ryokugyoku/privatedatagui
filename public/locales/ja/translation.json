@@ -1,11 +1,18 @@
 {
+    "URL": "http://localhost:8080",
     "login": {
       "title": "ログイン",
       "email": "メールアドレス",
       "password": "パスワード",
-      "submit": "ログイン"
+      "submit": "ログイン",
+      "rememberMe": "ログイン状態を維持する",
+      "loginError": "メールアドレスまたはパスワードが無効です"
     },
     "footer":{
       "language": "言語"
+  },
+  "popup": {
+    "warningTitle": "警告",
+    "close": "閉じる"
   }
   }

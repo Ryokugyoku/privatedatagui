@@ -1,16 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 import Footer from '../src/GraphicResources/footer';
-
+import AlertPopUp from '../src/GraphicResources/Popups/AlertPopUp';
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   const { t } = useTranslation();
-  const handleLogin = (e: React.FormEvent) => {
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     // ログイン処理をここに追加
     console.log("Email:", email);
     console.log("Password:", password);
+    //APIの生成
+    try{
+        const apiUrl = `${t('URL')}/api/Login/Login`;
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ userId: email, password, rememberMe }),
+          }).then(res => res.json());
+        // レスポンスのステータスコードを取得
+        const status = response.status;
+        if(!response.success){
+            //失敗したときメッセージを表示
+            setAlertMessage(t('login.loginError'));
+            setShowAlert(true);
+        }
+    }catch(e){
+      console.log(e);
+    }
   };
 
 
@@ -32,14 +56,14 @@ export default function Login() {
                     autoComplete="email"
                     required
                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 dark:text-gray-100 dark:bg-gray-800 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    placeholder="メールアドレス"
+                    placeholder={t('login.email')}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 </div>
                 <div>
                 <label htmlFor="password" className="sr-only">
-                    パスワード
+                    {t('login.password')}
                 </label>
                 <input
                     id="password"
@@ -48,11 +72,24 @@ export default function Login() {
                     autoComplete="current-password"
                     required
                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 dark:text-gray-100 dark:bg-gray-800 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    placeholder="パスワード"
+                    placeholder={t('login.password')}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
                 </div>
+                <div className="flex items-center">
+                <input
+                  id="remember-me"
+                  name="remember-me"
+                  type="checkbox"
+                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                />
+                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900 dark:text-gray-100">
+                  {t('login.rememberMe')}
+                </label>
+              </div>
             </div>
             <div>
                 <button
@@ -61,10 +98,14 @@ export default function Login() {
                 >
                 ログイン
                 </button>
+                
             </div>
             </form>
         </div>
       </div>
+      {showAlert && (
+        <AlertPopUp message={alertMessage} onClose={() => setShowAlert(false)} />
+      )}
       <Footer />
     </div>
   );

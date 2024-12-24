@@ -1,11 +1,18 @@
 {
+    "URL": "http://localhost:8080",
     "login": {
         "title": "Login",
         "email": "Email Address",
         "password": "Password",
-        "submit": "Login"
+        "submit": "Login",
+        "rememberMe": "Remember Me",
+        "loginError": "Invalid email or password"
     },
     "footer":{
         "language": "Language"
+    },
+    "popup": {
+        "warningTitle": "Warning",
+        "close": "Close"
     }
 }
